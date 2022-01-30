@@ -823,7 +823,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
         !has_flag( json_flag_PARAIMMUNE ) ) {
-        add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
+        add_consequence( string_format( _( "I might %s regret this." ),
                                         food.tname() ),
                          PARASITES );
     }
@@ -1035,21 +1035,27 @@ static bool eat( item &food, Character &you, bool force )
     if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
         if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
             one_in( food.get_comestible()->parasites ) ) {
-            switch( rng( 0, 3 ) ) {
+            switch( rng( 0, 6 ) ) {
                 case 0:
                     if( !you.has_trait( trait_EATHEALTH ) ) {
                         you.add_effect( effect_tapeworm, 1_turns, true );
                     }
                     break;
                 case 1:
+                    break;
+                case 2:
                     if( !you.has_trait( trait_ACIDBLOOD ) ) {
                         you.add_effect( effect_bloodworms, 1_turns, true );
                     }
                     break;
-                case 2:
+                case 3:
+                    break;
+                case 4:
                     you.add_effect( effect_brainworms, 1_turns, true );
                     break;
-                case 3:
+                case 5:
+                    break;
+                case 6:
                     you.add_effect( effect_paincysts, 1_turns, true );
             }
         }
